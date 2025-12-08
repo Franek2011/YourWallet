@@ -2,8 +2,11 @@ const supabaseUrl = 'https://gqqgumirzeqhbgpwdzcb.supabase.co';
 const supabaseAnonKey = 'sb_publishable_eZy_VDCijleReuLyzCy0kw_j8w0CZK4';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-const loginForm = document.getElementById('loginForm');
-const registerBtn = document.getElementById('registerBtn');
+const emailForm = document.getElementById('emailForm');
+const passwordWrapper = document.getElementById('passwordWrapper');
+const passwordInput = document.getElementById('password');
+const continueBtn = document.getElementById('continueBtn');
+
 const walletSection = document.getElementById('wallet');
 const balanceEl = document.getElementById('balance');
 const reportContent = document.getElementById('reportContent');
@@ -14,42 +17,49 @@ const addSamsungWalletBtn = document.getElementById('addSamsungWallet');
 
 let currentUser = null;
 
-// Login
-loginForm.addEventListener('submit', async (e) => {
+emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: document.getElementById('password')?.value || ''
-  });
+  // Prüfen, ob Benutzer existiert
+  const { data: users, error: userError } = await supabase
+    .from('user')
+    .select('id')
+    .eq('email', email)
+    .limit(1);
 
-  if (error) return alert(error.message);
-  currentUser = data.user;
-  loadDashboard();
+  if (userError) return alert('Fehler beim Überprüfen der E-Mail');
+
+  if (users.length === 0) {
+    // Benutzer existiert nicht → Registrieren
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      options: { emailRedirectTo: 'https://franek2011.github.io/YourWallet/' }
+    });
+    if (error) return alert(error.message);
+    alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
+  } else {
+    // Benutzer existiert → Passwortfeld anzeigen
+    passwordWrapper.style.display = 'block';
+    continueBtn.textContent = 'Login';
+
+    continueBtn.onclick = async (ev) => {
+      ev.preventDefault();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: passwordInput.value
+      });
+      if (error) return alert(error.message);
+      currentUser = data.user;
+      loadDashboard();
+    };
+  }
 });
 
-// Register (nur E-Mail)
-registerBtn.addEventListener('click', async () => {
-  const email = document.getElementById('email').value;
-
-  const { data, error } = await supabase.auth.signUp({
-    email: email,
-    options: {
-      emailRedirectTo: 'https://franek2011.github.io/YourWallet/'
-    }
-  });
-
-  if (error) return alert(error.message);
-  alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
-});
-
-// Dashboard laden
 async function loadDashboard() {
   document.getElementById('auth').style.display = 'none';
   walletSection.style.display = 'block';
 
-  // Coins laden
   const { data: userData, error: userError } = await supabase
     .from('user')
     .select('coins')
@@ -58,7 +68,6 @@ async function loadDashboard() {
   if (userError) return console.error(userError);
   balanceEl.textContent = userData.coins;
 
-  // Monatsbericht laden
   const { data: transactions, error: txError } = await supabase
     .from('transactions')
     .select('*')
