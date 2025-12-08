@@ -2,15 +2,13 @@ const supabaseUrl = 'https://gqqgumirzeqhbgpwdzcb.supabase.co';
 const supabaseAnonKey = 'sb_publishable_eZy_VDCijleReuLyzCy0kw_j8w0CZK4';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-const emailForm = document.getElementById('emailForm');
-const loginForm = document.getElementById('loginForm');
-const registerBtn = document.getElementById('registerBtn');
-
 const startScreen = document.getElementById('startScreen');
 const loadingScreen = document.getElementById('loadingScreen');
-const authSection = document.getElementById('auth');
+const passwordScreen = document.getElementById('passwordScreen');
 const walletSection = document.getElementById('wallet');
 
+const emailForm = document.getElementById('emailForm');
+const passwordForm = document.getElementById('passwordForm');
 const balanceEl = document.getElementById('balance');
 const reportContent = document.getElementById('reportContent');
 
@@ -20,56 +18,54 @@ const addSamsungWalletBtn = document.getElementById('addSamsungWallet');
 
 let currentUser = null;
 
-// Schritt 1: E-Mail eingeben
+// Email weiter
 emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
 
-  // Ladebildschirm einblenden
+  // Ladeanimation
   startScreen.style.display = 'none';
-  loadingScreen.style.display = 'block';
+  loadingScreen.style.display = 'flex';
 
-  setTimeout(() => {
+  setTimeout(async () => {
     loadingScreen.style.display = 'none';
-    authSection.style.display = 'block';
-  }, 2000); // 2 Sekunden Ladezeit
 
-  // Optional: hier prüfen, ob User existiert und Passwortfeld anpassen
+    // Prüfen, ob User existiert
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: ''
+    });
+
+    if (error && error.message.includes("Invalid login credentials")) {
+      // Passwort noch nicht gesetzt → Passwortscreen zeigen
+      passwordScreen.style.display = 'flex';
+      currentUser = { email };
+    } else {
+      // Login erfolgreich
+      currentUser = data.user;
+      loadDashboard();
+    }
+  }, 2000);
 });
 
-// Login
-loginForm.addEventListener('submit', async (e) => {
+// Passwort setzen/Login
+passwordForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  const email = currentUser.email;
 
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return alert(error.message);
-
   currentUser = data.user;
+  passwordScreen.style.display = 'none';
   loadDashboard();
-});
-
-// Registrierung
-registerBtn.addEventListener('click', async () => {
-  const email = document.getElementById('email').value;
-
-  const { data, error } = await supabase.auth.signUp({
-    email: email,
-    options: {
-      emailRedirectTo: 'https://franek2011.github.io/YourWallet/'
-    }
-  });
-
-  if (error) return alert(error.message);
-  alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
 });
 
 // Dashboard laden
 async function loadDashboard() {
-  authSection.style.display = 'none';
   walletSection.style.display = 'block';
 
+  // Coins laden
   const { data: userData, error: userError } = await supabase
     .from('user')
     .select('coins')
@@ -77,6 +73,7 @@ async function loadDashboard() {
     .single();
   if (!userError) balanceEl.textContent = userData.coins;
 
+  // Monatsbericht laden
   const { data: transactions, error: txError } = await supabase
     .from('transactions')
     .select('*')
@@ -90,7 +87,7 @@ async function loadDashboard() {
   }
 }
 
-// Wallet Buttons (Testlinks)
-addAppleWalletBtn.addEventListener('click', () => window.location.href = 'https://google.com');
-addGoogleWalletBtn.addEventListener('click', () => window.location.href = 'https://google.com');
-addSamsungWalletBtn.addEventListener('click', () => window.location.href = 'https://google.com');
+// Wallet Buttons (Test-Links)
+addAppleWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
+addGoogleWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
+addSamsungWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
