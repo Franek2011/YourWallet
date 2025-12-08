@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
+
   <div id="loader" class="hidden">
     <div class="spinner"></div>
   </div>
@@ -15,16 +16,18 @@
   <div id="auth-screen">
     <h1>YourWallet</h1>
     <p>Willkommen bei YourWallet! Bitte deine E-Mail eingeben:</p>
-    <input type="email" id="email" placeholder="Deine E-Mail" required>
+    <input type="email" id="email" placeholder="Deine E-Mail">
     <button id="emailNextBtn">Weiter</button>
   </div>
 
   <div id="password-screen" class="hidden">
-    <h1>Dein Passwort</h1>
-    <p>Bitte Passwort eingeben, falls bereits gesetzt:</p>
+    <h1>Login / Registrierung</h1>
+    <p id="password-msg">Bitte Passwort eingeben:</p>
     <input type="password" id="password" placeholder="Passwort">
-    <button id="loginBtn">Login</button>
-    <button id="registerBtn">Registrieren</button>
+    <div>
+      <button id="loginBtn">Login</button>
+      <button id="registerBtn">Registrieren</button>
+    </div>
   </div>
 
   <main id="wallet-screen" class="hidden">
