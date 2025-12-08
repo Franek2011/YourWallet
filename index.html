@@ -8,61 +8,52 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>YourWallet</h1>
-  </header>
 
-  <main>
-    <!-- Startscreen -->
-    <section id="startScreen">
-      <p>Willkommen bei YourWallet! Bitte deine E-Mail eingeben:</p>
-      <form id="emailForm">
-        <input type="email" id="email" placeholder="Deine E-Mail" required>
-        <button type="submit">Weiter</button>
-      </form>
+  <!-- Startscreen -->
+  <section id="startScreen">
+    <h1>Willkommen bei YourWallet!</h1>
+    <p>Bitte deine E-Mail eingeben:</p>
+    <form id="emailForm">
+      <input type="email" id="email" placeholder="Deine E-Mail" required>
+      <button type="submit">Weiter</button>
+    </form>
+  </section>
+
+  <!-- Ladebildschirm -->
+  <section id="loadingScreen" style="display:none;">
+    <div class="loader"></div>
+    <p>Lädt...</p>
+  </section>
+
+  <!-- Passwortscreen -->
+  <section id="passwordScreen" style="display:none;">
+    <h2>Passwort setzen</h2>
+    <form id="passwordForm">
+      <input type="password" id="password" placeholder="Passwort" required>
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <main id="wallet" style="display:none;">
+    <h2>Dashboard</h2>
+    <p>Kontostand: <span id="balance">0</span> Coins</p>
+
+    <section class="report">
+      <h3>Monatsbericht</h3>
+      <div id="reportContent">Noch keine Einträge</div>
     </section>
 
-    <!-- Ladebildschirm -->
-    <section id="loadingScreen" style="display:none;">
-      <div class="loader"></div>
-      <p>Lädt...</p>
-    </section>
-
-    <!-- Passwort & Login/Register -->
-    <section id="auth" style="display:none;">
-      <form id="loginForm">
-        <label for="password">Passwort</label>
-        <input type="password" id="password" placeholder="Passwort" required>
-        <button type="submit">Login</button>
-      </form>
-      <button id="registerBtn">Registrieren</button>
-    </section>
-
-    <!-- Wallet / Dashboard -->
-    <section id="wallet" style="display:none;">
-      <div class="dashboard">
-        <div class="coins">
-          <h2>Meine Coins</h2>
-          <p>Kontostand: <span id="balance">0</span> Coins</p>
-        </div>
-
-        <div class="report">
-          <h2>Monatsbericht</h2>
-          <div id="reportContent">Noch keine Einträge</div>
-        </div>
-      </div>
-
-      <!-- Wallet Buttons -->
-      <div class="wallet-buttons">
-        <button id="addAppleWallet">Apple Wallet</button>
-        <button id="addGoogleWallet">Google Wallet</button>
-        <button id="addSamsungWallet">Samsung Wallet</button>
-      </div>
-    </section>
+    <div class="wallet-buttons">
+      <button id="addAppleWallet">Apple Wallet</button>
+      <button id="addGoogleWallet">Google Wallet</button>
+      <button id="addSamsungWallet">Samsung Wallet</button>
+    </div>
   </main>
 
+  <!-- Lizenz unten rechts -->
   <footer>
-    <p>© 2025 Franek2011 (Franek Porombka) – MIT License</p>
+    © 2025 Franek2011 (Franek Porombka) – MIT License
   </footer>
 
   <script src="script.js"></script>
