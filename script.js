@@ -18,20 +18,31 @@ let currentUser = null;
 loginForm.addEventListener('submit', async (e) => {
 e.preventDefault();
 const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+// Login nur, wenn User schon Passwort gesetzt hat
+const { data, error } = await supabase.auth.signInWithPassword({
+email: email,
+password: document.getElementById('password')?.value || ''
+});
+
 if (error) return alert(error.message);
 currentUser = data.user;
 loadDashboard();
 });
 
-// Register
+// Register (nur E-Mail)
 registerBtn.addEventListener('click', async () => {
 const email = document.getElementById('email').value;
-const password = document.getElementById('password').value;
-const { data, error } = await supabase.auth.signUp({ email, password });
+
+const { data, error } = await supabase.auth.signUp({
+email: email,
+options: {
+emailRedirectTo: '[https://franek2011.github.io/YourWallet/](https://franek2011.github.io/YourWallet/)'
+}
+});
+
 if (error) return alert(error.message);
-alert('Registrierung erfolgreich! Bitte logge dich ein.');
+alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
 });
 
 // Dashboard laden
