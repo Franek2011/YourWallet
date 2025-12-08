@@ -1,4 +1,4 @@
-const supabaseUrl = '[https://gqqgumirzeqhbgpwdzcb.supabase.co](https://gqqgumirzeqhbgpwdzcb.supabase.co)';
+const supabaseUrl = 'https://gqqgumirzeqhbgpwdzcb.supabase.co';
 const supabaseAnonKey = 'sb_publishable_eZy_VDCijleReuLyzCy0kw_j8w0CZK4';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
@@ -16,64 +16,63 @@ let currentUser = null;
 
 // Login
 loginForm.addEventListener('submit', async (e) => {
-e.preventDefault();
-const email = document.getElementById('email').value;
+  e.preventDefault();
+  const email = document.getElementById('email').value;
 
-// Login nur, wenn User schon Passwort gesetzt hat
-const { data, error } = await supabase.auth.signInWithPassword({
-email: email,
-password: document.getElementById('password')?.value || ''
-});
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: document.getElementById('password')?.value || ''
+  });
 
-if (error) return alert(error.message);
-currentUser = data.user;
-loadDashboard();
+  if (error) return alert(error.message);
+  currentUser = data.user;
+  loadDashboard();
 });
 
 // Register (nur E-Mail)
 registerBtn.addEventListener('click', async () => {
-const email = document.getElementById('email').value;
+  const email = document.getElementById('email').value;
 
-const { data, error } = await supabase.auth.signUp({
-email: email,
-options: {
-emailRedirectTo: '[https://franek2011.github.io/YourWallet/](https://franek2011.github.io/YourWallet/)'
-}
-});
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    options: {
+      emailRedirectTo: 'https://franek2011.github.io/YourWallet/'
+    }
+  });
 
-if (error) return alert(error.message);
-alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
+  if (error) return alert(error.message);
+  alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
 });
 
 // Dashboard laden
 async function loadDashboard() {
-document.getElementById('auth').style.display = 'none';
-walletSection.style.display = 'block';
+  document.getElementById('auth').style.display = 'none';
+  walletSection.style.display = 'block';
 
-// Coins laden
-const { data: userData, error: userError } = await supabase
-.from('user')
-.select('coins')
-.eq('id', currentUser.id)
-.single();
-if (userError) return console.error(userError);
-balanceEl.textContent = userData.coins;
+  // Coins laden
+  const { data: userData, error: userError } = await supabase
+    .from('user')
+    .select('coins')
+    .eq('id', currentUser.id)
+    .single();
+  if (userError) return console.error(userError);
+  balanceEl.textContent = userData.coins;
 
-// Monatsbericht laden
-const { data: transactions, error: txError } = await supabase
-.from('transactions')
-.select('*')
-.eq('user_id', currentUser.id)
-.order('created_at', { ascending: false });
-if (txError) return console.error(txError);
+  // Monatsbericht laden
+  const { data: transactions, error: txError } = await supabase
+    .from('transactions')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+  if (txError) return console.error(txError);
 
-reportContent.innerHTML = '';
-transactions.forEach(t => {
-reportContent.innerHTML += `${new Date(t.created_at).toLocaleDateString()}: ${t.description} (${t.amount} Coins)<br>`;
-});
+  reportContent.innerHTML = '';
+  transactions.forEach(t => {
+    reportContent.innerHTML += `${new Date(t.created_at).toLocaleDateString()}: ${t.description} (${t.amount} Coins)<br>`;
+  });
 }
 
-// Wallet Buttons (Test-URLs)
-addAppleWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
-addGoogleWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
-addSamsungWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
+// Wallet Buttons (Test-Links)
+addAppleWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
+addGoogleWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
+addSamsungWalletBtn.addEventListener('click', () => { window.location.href = 'https://google.com'; });
