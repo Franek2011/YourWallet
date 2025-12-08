@@ -3,9 +3,8 @@ const supabaseAnonKey = 'sb_publishable_eZy_VDCijleReuLyzCy0kw_j8w0CZK4';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 const emailForm = document.getElementById('emailForm');
-const passwordWrapper = document.getElementById('passwordWrapper');
-const passwordInput = document.getElementById('password');
 const continueBtn = document.getElementById('continueBtn');
+const passwordWrapper = document.getElementById('passwordWrapper');
 
 const walletSection = document.getElementById('wallet');
 const balanceEl = document.getElementById('balance');
@@ -21,45 +20,40 @@ emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
 
-  // Prüfen, ob Benutzer existiert
-  const { data: users, error: userError } = await supabase
-    .from('user')
-    .select('id')
-    .eq('email', email)
-    .limit(1);
+  // Prüfen ob User existiert
+  const { data: users, error: listError } = await supabase.auth.admin.listUsers();
+  if (listError) return alert(listError.message);
 
-  if (userError) return alert('Fehler beim Überprüfen der E-Mail');
+  const exists = users.find(u => u.email === email);
 
-  if (users.length === 0) {
-    // Benutzer existiert nicht → Registrieren
+  if (exists) {
+    // User existiert → Passwortfeld zeigen, Buttontext ändern
+    passwordWrapper.style.display = 'block';
+    continueBtn.textContent = 'Login';
+    continueBtn.onclick = async () => {
+      const password = document.getElementById('password').value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) return alert(error.message);
+      currentUser = data.user;
+      loadDashboard();
+    };
+  } else {
+    // User existiert nicht → Mail-Link schicken
     const { data, error } = await supabase.auth.signUp({
       email: email,
       options: { emailRedirectTo: 'https://franek2011.github.io/YourWallet/' }
     });
     if (error) return alert(error.message);
     alert('Bestätigungsmail geschickt! Bitte dort Passwort setzen.');
-  } else {
-    // Benutzer existiert → Passwortfeld anzeigen
-    passwordWrapper.style.display = 'block';
-    continueBtn.textContent = 'Login';
-
-    continueBtn.onclick = async (ev) => {
-      ev.preventDefault();
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: passwordInput.value
-      });
-      if (error) return alert(error.message);
-      currentUser = data.user;
-      loadDashboard();
-    };
   }
 });
 
+// Dashboard laden
 async function loadDashboard() {
   document.getElementById('auth').style.display = 'none';
   walletSection.style.display = 'block';
 
+  // Coins laden
   const { data: userData, error: userError } = await supabase
     .from('user')
     .select('coins')
@@ -68,6 +62,7 @@ async function loadDashboard() {
   if (userError) return console.error(userError);
   balanceEl.textContent = userData.coins;
 
+  // Monatsbericht laden
   const { data: transactions, error: txError } = await supabase
     .from('transactions')
     .select('*')
