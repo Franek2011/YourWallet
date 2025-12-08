@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YourWallet</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
   <header>
@@ -12,19 +14,48 @@
   </header>
 
   <main>
-    <!-- Dashboard / Wallet -->
-    <section id="wallet">
-      <h2>Meine Coins</h2>
-      <p>Kontostand: <span id="balance">0</span> Coins</p>
-      <button id="earnCoins">Coins verdienen</button>
+    <!-- Login/Register -->
+    <section id="auth">
+      <form id="loginForm">
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" placeholder="E-Mail" required>
+        <label for="password">Passwort</label>
+        <input type="password" id="password" placeholder="Passwort" required>
+        <button type="submit">Login</button>
+      </form>
+      <button id="registerBtn">Registrieren</button>
     </section>
 
-    <!-- Monatsbericht -->
-    <section id="report">
+```
+<!-- Wallet / Dashboard -->
+<section id="wallet" style="display:none;">
+  <div class="dashboard">
+    <div class="coins">
+      <h2>Meine Coins</h2>
+      <p>Kontostand: <span id="balance">0</span> Coins</p>
+    </div>
+
+    <div class="report">
       <h2>Monatsbericht</h2>
       <div id="reportContent">Noch keine Einträge</div>
-    </section>
+    </div>
+  </div>
+
+  <!-- Wallet Buttons -->
+  <div class="wallet-buttons">
+    <button id="addAppleWallet">Add to Apple Wallet</button>
+    <button id="addGoogleWallet">Add to Google Wallet</button>
+    <button id="addSamsungWallet">Add to Samsung Wallet</button>
+  </div>
+</section>
+```
+
   </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
 
   <script src="script.js"></script>
 </body>
