@@ -13,45 +13,41 @@
   </header>
 
   <main>
-    <!-- Login/Register -->
     <section id="auth">
-      <form id="loginForm">
+      <form id="emailForm">
         <label for="email">E-Mail</label>
         <input type="email" id="email" placeholder="Deine E-Mail" required>
-        <label for="password">Passwort</label>
-        <input type="password" id="password" placeholder="Passwort" required>
-        <button type="submit">Login</button>
+        <div id="passwordWrapper" style="display:none;">
+          <label for="password">Passwort</label>
+          <input type="password" id="password" placeholder="Passwort">
+        </div>
+        <button type="submit" id="continueBtn">Weiter</button>
       </form>
-      <button id="registerBtn">Registrieren</button>
     </section>
 
-    <!-- Wallet / Dashboard -->
     <section id="wallet" style="display:none;">
       <div class="dashboard">
         <div class="coins">
           <h2>Meine Coins</h2>
           <p>Kontostand: <span id="balance">0</span> Coins</p>
         </div>
-
         <div class="report">
           <h2>Monatsbericht</h2>
           <div id="reportContent">Noch keine Einträge</div>
         </div>
       </div>
 
-      <!-- Wallet Buttons -->
       <div class="wallet-buttons">
         <button id="addAppleWallet">Add to Apple Wallet</button>
         <button id="addGoogleWallet">Add to Google Wallet</button>
         <button id="addSamsungWallet">Add to Samsung Wallet</button>
       </div>
     </section>
-  </main>
 
-  <!-- Copyright unten links -->
-  <div class="copyright">
-    © 2025 Franek2011 (Franek Porombka) – MIT License
-  </div>
+    <footer>
+      <p class="license">© 2025 Franek2011 (Franek Porombka)</p>
+    </footer>
+  </main>
 
   <script src="script.js"></script>
 </body>
