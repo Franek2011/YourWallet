@@ -41,7 +41,7 @@ form input {
   border: 1px solid #ccc;
 }
 
-form button, #registerBtn, #continueBtn {
+form button, #registerBtn {
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
   cursor: pointer;
@@ -51,7 +51,7 @@ form button, #registerBtn, #continueBtn {
   border-radius: 5px;
 }
 
-form button:hover, #registerBtn:hover, #continueBtn:hover {
+form button:hover, #registerBtn:hover {
   background: #45a049;
 }
 
@@ -77,9 +77,24 @@ form button:hover, #registerBtn:hover, #continueBtn:hover {
 }
 
 footer {
-  position: fixed;
-  left: 1rem;
-  bottom: 1rem;
+  text-align: left;
   font-size: 0.8rem;
-  color: #555;
+  padding: 1rem 2rem;
+  color: #666;
+}
+
+/* Ladekreis */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #4CAF50;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 1rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
