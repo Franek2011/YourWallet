@@ -1,5 +1,5 @@
-const supabaseUrl = 'DEINE_SUPABASE_URL';
-const supabaseAnonKey = 'DEIN_ANON_KEY';
+const supabaseUrl = '[https://gqqgumirzeqhbgpwdzcb.supabase.co](https://gqqgumirzeqhbgpwdzcb.supabase.co)';
+const supabaseAnonKey = 'sb_publishable_eZy_VDCijleReuLyzCy0kw_j8w0CZK4';
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 const loginForm = document.getElementById('loginForm');
@@ -7,14 +7,10 @@ const registerBtn = document.getElementById('registerBtn');
 const walletSection = document.getElementById('wallet');
 const balanceEl = document.getElementById('balance');
 const reportContent = document.getElementById('reportContent');
+
 const addAppleWalletBtn = document.getElementById('addAppleWallet');
 const addGoogleWalletBtn = document.getElementById('addGoogleWallet');
-
-// Samsung Wallet Button hinzufügen
-const addSamsungWalletBtn = document.createElement('button');
-addSamsungWalletBtn.id = 'addSamsungWallet';
-addSamsungWalletBtn.textContent = 'Add to Samsung Wallet';
-walletSection.appendChild(addSamsungWalletBtn);
+const addSamsungWalletBtn = document.getElementById('addSamsungWallet');
 
 let currentUser = null;
 
@@ -66,13 +62,7 @@ reportContent.innerHTML += `${new Date(t.created_at).toLocaleDateString()}: ${t.
 });
 }
 
-// Wallet Buttons
-addAppleWalletBtn.addEventListener('click', () => {
-window.location.href = 'DEINE_PKPASS_URL';
-});
-addGoogleWalletBtn.addEventListener('click', () => {
-window.location.href = 'DEINE_JWT_URL';
-});
-addSamsungWalletBtn.addEventListener('click', () => {
-window.location.href = 'DEINE_SAMSUNG_WALLET_URL';
-});
+// Wallet Buttons (Test-URLs)
+addAppleWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
+addGoogleWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
+addSamsungWalletBtn.addEventListener('click', () => { window.location.href = '[https://google.com](https://google.com)'; });
