@@ -8,39 +8,31 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
+  <div id="loader" class="hidden">
+    <div class="spinner"></div>
+  </div>
 
-  <!-- Startscreen -->
-  <section id="startScreen">
-    <h1>Willkommen bei YourWallet!</h1>
-    <p>Bitte deine E-Mail eingeben:</p>
-    <form id="emailForm">
-      <input type="email" id="email" placeholder="Deine E-Mail" required>
-      <button type="submit">Weiter</button>
-    </form>
-  </section>
+  <div id="auth-screen">
+    <h1>YourWallet</h1>
+    <p>Willkommen bei YourWallet! Bitte deine E-Mail eingeben:</p>
+    <input type="email" id="email" placeholder="Deine E-Mail" required>
+    <button id="emailNextBtn">Weiter</button>
+  </div>
 
-  <!-- Ladebildschirm -->
-  <section id="loadingScreen" style="display:none;">
-    <div class="loader"></div>
-    <p>Lädt...</p>
-  </section>
+  <div id="password-screen" class="hidden">
+    <h1>Dein Passwort</h1>
+    <p>Bitte Passwort eingeben, falls bereits gesetzt:</p>
+    <input type="password" id="password" placeholder="Passwort">
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Registrieren</button>
+  </div>
 
-  <!-- Passwortscreen -->
-  <section id="passwordScreen" style="display:none;">
-    <h2>Passwort setzen</h2>
-    <form id="passwordForm">
-      <input type="password" id="password" placeholder="Passwort" required>
-      <button type="submit">Login</button>
-    </form>
-  </section>
-
-  <!-- Dashboard -->
-  <main id="wallet" style="display:none;">
-    <h2>Dashboard</h2>
+  <main id="wallet-screen" class="hidden">
+    <h1>Dashboard</h1>
     <p>Kontostand: <span id="balance">0</span> Coins</p>
 
     <section class="report">
-      <h3>Monatsbericht</h3>
+      <h2>Monatsbericht</h2>
       <div id="reportContent">Noch keine Einträge</div>
     </section>
 
@@ -51,7 +43,6 @@
     </div>
   </main>
 
-  <!-- Lizenz unten rechts -->
   <footer>
     © 2025 Franek2011 (Franek Porombka) – MIT License
   </footer>
