@@ -41,7 +41,7 @@ form input {
   border: 1px solid #ccc;
 }
 
-form button {
+form button, #registerBtn, #continueBtn {
   margin-top: 1rem;
   padding: 0.7rem 1.5rem;
   cursor: pointer;
@@ -51,7 +51,7 @@ form button {
   border-radius: 5px;
 }
 
-form button:hover {
+form button:hover, #registerBtn:hover, #continueBtn:hover {
   background: #45a049;
 }
 
@@ -77,12 +77,9 @@ form button:hover {
 }
 
 footer {
-  text-align: left;
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
   font-size: 0.8rem;
-  color: #666;
-  padding: 1rem 0;
-}
-
-.license {
-  margin-left: 1rem;
+  color: #555;
 }
