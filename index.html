@@ -13,19 +13,29 @@
   </header>
 
   <main>
-    <!-- Login/Register -->
-    <section id="auth">
+    <!-- Startscreen -->
+    <section id="startScreen">
+      <p>Willkommen bei YourWallet! Bitte deine E-Mail eingeben:</p>
       <form id="emailForm">
-        <label for="email">E-Mail</label>
         <input type="email" id="email" placeholder="Deine E-Mail" required>
-
-        <div id="passwordWrapper" style="display:none;">
-          <label for="password">Passwort</label>
-          <input type="password" id="password" placeholder="Passwort">
-        </div>
-
-        <button type="submit" id="continueBtn">Weiter</button>
+        <button type="submit">Weiter</button>
       </form>
+    </section>
+
+    <!-- Ladebildschirm -->
+    <section id="loadingScreen" style="display:none;">
+      <div class="loader"></div>
+      <p>Lädt...</p>
+    </section>
+
+    <!-- Passwort & Login/Register -->
+    <section id="auth" style="display:none;">
+      <form id="loginForm">
+        <label for="password">Passwort</label>
+        <input type="password" id="password" placeholder="Passwort" required>
+        <button type="submit">Login</button>
+      </form>
+      <button id="registerBtn">Registrieren</button>
     </section>
 
     <!-- Wallet / Dashboard -->
@@ -52,7 +62,7 @@
   </main>
 
   <footer>
-    © 2025 Franek2011 (Franek Porombka) – MIT License
+    <p>© 2025 Franek2011 (Franek Porombka) – MIT License</p>
   </footer>
 
   <script src="script.js"></script>
